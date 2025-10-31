@@ -1,53 +1,152 @@
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not (vim.uv or vim.loop).fs_stat(lazypath) then
-  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
-  if vim.v.shell_error ~= 0 then
-    vim.api.nvim_echo({
-      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-      { out, "WarningMsg" },
-      { "\nPress any key to exit..." },
-    }, true, {})
-    vim.fn.getchar()
-    os.exit(1)
-  end
-end
-vim.opt.rtp:prepend(lazypath)
-
+-- lazy.nvim configuration
 require("lazy").setup({
   spec = {
-    -- add LazyVim and import its plugins
-    { "LazyVim/LazyVim", import = "lazyvim.plugins" },
-    -- import/override with your plugins
-    { import = "plugins" },
-  },
-  defaults = {
-    -- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.
-    -- If you know what you're doing, you can set this to `true` to have all your custom plugins lazy-loaded by default.
-    lazy = false,
-    -- It's recommended to leave version=false for now, since a lot the plugin that support versioning,
-    -- have outdated releases, which may break your Neovim install.
-    version = false, -- always use the latest git commit
-    -- version = "*", -- try installing the latest stable version for plugins that support semver
-  },
-  install = { colorscheme = { "tokyonight", "habamax" } },
-  checker = {
-    enabled = true, -- check for plugin updates periodically
-    notify = false, -- notify on update
-  }, -- automatically check for plugin updates
-  performance = {
-    rtp = {
-      -- disable some rtp plugins
-      disabled_plugins = {
-        "gzip",
-        -- "matchit",
-        -- "matchparen",
-        -- "netrwPlugin",
-        "tarPlugin",
-        "tohtml",
-        "tutor",
-        "zipPlugin",
+    -- Colorscheme (Sonokai)
+    {
+      "sainnhe/sonokai",
+      lazy = false,
+      priority = 1000,
+      config = function()
+        vim.cmd.colorscheme("sonokai")
+      end,
+    },
+
+    -- Treesitter (syntax highlighting and more)
+    {
+      "nvim-treesitter/nvim-treesitter",
+      build = ":TSUpdate",
+      event = { "BufReadPre", "BufNewFile" },
+      config = function()
+        require("nvim-treesitter.configs").setup({
+          ensure_installed = {
+            "python",
+            "lua",
+            "bash",
+            "json",
+            "yaml",
+            "vim",
+            "javascript",
+            "typescript",
+            "vue",
+            "dockerfile",
+            "css",
+            "html",
+          },
+          highlight = { enable = true },
+          indent = { enable = true },
+        })
+      end,
+    },
+
+    -- LSP Configuration
+    {
+      "neovim/nvim-lspconfig",
+      event = { "BufReadPre", "BufNewFile" },
+      config = function()
+        require("config.lsp")
+      end,
+      dependencies = {
+        "hrsh7th/cmp-nvim-lsp",
       },
     },
+
+    -- Completion
+    {
+      "hrsh7th/nvim-cmp",
+      event = "InsertEnter",
+      config = function()
+        require("config.completion")
+      end,
+      dependencies = {
+        "hrsh7th/cmp-nvim-lsp",
+        "hrsh7th/cmp-buffer",
+        "hrsh7th/cmp-path",
+        "L3MON4D3/LuaSnip",
+        "saadparwaiz1/cmp_luasnip",
+      },
+    },
+
+    -- Snippets
+    {
+      "L3MON4D3/LuaSnip",
+      build = "make install_jsregexp",
+    },
+
+    -- Fuzzy finder
+    {
+      "nvim-telescope/telescope.nvim",
+      cmd = "Telescope",
+      config = function()
+        require("config.telescope")
+      end,
+      dependencies = { "nvim-lua/plenary.nvim" },
+    },
+
+    -- Git integration
+    {
+      "tpope/vim-fugitive",
+      cmd = { "Git", "G" },
+    },
+    {
+      "lewis6991/gitsigns.nvim",
+      event = { "BufReadPre", "BufNewFile" },
+      config = function()
+        require("gitsigns").setup()
+      end,
+    },
+
+    -- Statusline
+    {
+      "nvim-lualine/lualine.nvim",
+      event = "VeryLazy",
+      config = function()
+        require("config.lualine")
+      end,
+      dependencies = { "nvim-tree/nvim-web-devicons" },
+    },
+
+    -- File explorer
+    {
+      "nvim-tree/nvim-tree.lua",
+      cmd = "NvimTreeToggle",
+      config = function()
+        require("config.nvim-tree")
+      end,
+      dependencies = { "nvim-tree/nvim-web-devicons" },
+    },
+
+    -- Comments
+    {
+      "numToStr/comment.nvim",
+      event = { "BufReadPre", "BufNewFile" },
+      config = function()
+        require("comment").setup()
+      end,
+    },
+
+    -- Docker syntax highlighting
+    {
+      "ekalinin/Dockerfile.vim",
+      ft = "dockerfile",
+    },
+
+    -- Formatting (Prettier, Black, etc.)
+    {
+      "stevearc/conform.nvim",
+      event = { "BufReadPre", "BufNewFile" },
+      config = function()
+        require("config.formatting")
+      end,
+    },
+
+    -- Keybinding helper
+    {
+      "folke/which-key.nvim",
+      event = "VeryLazy",
+      config = function()
+        require("config.which-key")
+      end,
+    },
   },
+  install = { colorscheme = { "sonokai" } },
 })
