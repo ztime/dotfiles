@@ -12,4 +12,5 @@ vim.list_extend(all, require("plugins.cmp"))
 vim.list_extend(all, require("plugins.trouble"))
 vim.list_extend(all, require("plugins.whichkey"))
 vim.list_extend(all, require("plugins.gitsigns"))
+vim.list_extend(all, require("plugins.neotree"))
 return all

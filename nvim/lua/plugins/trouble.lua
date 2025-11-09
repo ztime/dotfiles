@@ -4,7 +4,7 @@ return {
     dependencies = { "nvim-tree/nvim-web-devicons" },
     cmd = "Trouble",
     keys = {
-      { "<leader>e", "<cmd>Trouble diagnostics toggle<cr>", desc = "Toggle trouble panel" },
+      { "<leader>d", "<cmd>Trouble diagnostics toggle<cr>", desc = "Toggle diagnostics" },
     },
     config = function()
       require("trouble").setup({})
