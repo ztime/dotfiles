@@ -14,4 +14,7 @@ vim.list_extend(all, require("plugins.whichkey"))
 vim.list_extend(all, require("plugins.gitsigns"))
 vim.list_extend(all, require("plugins.neotree"))
 vim.list_extend(all, require("plugins.flash"))
+vim.list_extend(all, require("plugins.autopairs"))
+vim.list_extend(all, require("plugins.comment"))
+vim.list_extend(all, require("plugins.conform"))
 return all
