@@ -60,4 +60,14 @@ keymap("n", "<C-l>", "<C-w>l", opts)
 -- Escape key
 keymap("i", "jk", "<ESC>", opts)
 
+-- Show full diagnostic message
+keymap("n", "<leader>k", vim.diagnostic.open_float, { noremap = true, silent = true, desc = "Show diagnostic message" })
+
+-- Diagnostics (inline virtual text)
+vim.diagnostic.config({
+  virtual_text = true,
+  signs = true,
+  underline = true,
+})
+
 print("Neovim setup loaded successfully")

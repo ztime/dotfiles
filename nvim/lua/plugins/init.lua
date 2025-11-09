@@ -9,4 +9,7 @@ vim.list_extend(all, require("plugins.treesitter"))
 vim.list_extend(all, require("plugins.mason"))
 vim.list_extend(all, require("plugins.lspconfig"))
 vim.list_extend(all, require("plugins.cmp"))
+vim.list_extend(all, require("plugins.trouble"))
+vim.list_extend(all, require("plugins.whichkey"))
+vim.list_extend(all, require("plugins.gitsigns"))
 return all
