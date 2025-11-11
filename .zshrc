@@ -76,6 +76,11 @@ alias gs="git status -sb"
 alias gp="git push"
 alias gh="git diff HEAD"
 
+# Source local configurations (work-specific aliases/functions)
+# This file is tracked as empty but ignored for changes
+if [ -f ~/.zshrc.local ]; then
+    source ~/.zshrc.local
+fi
 
 # Shell integrations
 eval "$(fzf --zsh)"
@@ -83,19 +88,4 @@ eval "$(fzf --zsh)"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/jonas/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/jonas/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/jonas/miniconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/jonas/miniconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
 
