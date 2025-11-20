@@ -12,6 +12,8 @@ if ! command -v stow &> /dev/null; then
         sudo apt-get install -y stow
     elif command -v yum &> /dev/null; then
         sudo yum install -y stow
+    elif command -v pacman &> /dev/null; then
+        sudo pacman -S --noconfirm stow
     elif command -v brew &> /dev/null; then
         brew install stow
     else
@@ -23,14 +25,24 @@ fi
 # Create symlinks using stow
 echo "Creating symlinks with stow..."
 cd "$SCRIPT_DIR"
-stow home
+stow --target="$HOME" home
 
 # Setup tmux plugins
 echo "Setting up tmux plugins..."
 if [ ! -d ~/.tmux/plugins/tpm ]; then
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+    echo "Installing tpm plugin dependencies..."
+    ~/.tmux/plugins/tpm/bin/install_plugins
 else
-    echo "tmux plugins already installed"
+    echo "tmux plugin manager already installed"
+fi
+
+# Setup nvim plugins
+echo "Setting up nvim plugins..."
+if command -v nvim &> /dev/null; then
+    nvim --headless "+Lazy! sync" +qa
+else
+    echo "nvim not installed, skipping plugin setup"
 fi
 
 echo "Setup complete!"
