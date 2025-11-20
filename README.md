@@ -1,8 +1,20 @@
-#dotfiles
+# Dotfiles
 
-This is just a backup of different configuration files like .~/vimrc
+My dotfiles!
 
-**Symbolic link**
+## Quick Setup
+
+```bash
+git clone https://github.com/yourusername/dotfiles.git
+cd dotfiles
+./setup.sh
 ```
-$ ln -s {/path/to/file} {link-name}
-```
+
+The setup script will:
+- Install GNU Stow (if not present)
+- Create symlinks from the `home/` directory to your home directory
+- Install tmux and Neovim plugins
+
+## Local Overrides
+
+Edit `.zshrc.local` for machine-specific shell configuration. This file is not tracked by Git.
