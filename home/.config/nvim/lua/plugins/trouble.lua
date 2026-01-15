@@ -7,7 +7,9 @@ return {
       { "<leader>d", "<cmd>Trouble diagnostics toggle<cr>", desc = "Toggle diagnostics" },
     },
     config = function()
-      require("trouble").setup({})
+      require("trouble").setup({
+        focus = true,
+      })
     end,
   },
   {

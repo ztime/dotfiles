@@ -74,7 +74,10 @@ alias tm='tmux new-session -A -s default'
 alias g="git"
 alias gs="git status -sb"
 alias gp="git push"
-alias gh="git diff HEAD"
+#alias gh="git diff HEAD"
+
+# Lifehack, prun = poetry run
+alias prun="poetry run"
 
 # Source local configurations (work-specific aliases/functions)
 # This file is tracked as empty but ignored for changes

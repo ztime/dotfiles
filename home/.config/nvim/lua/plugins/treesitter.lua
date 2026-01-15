@@ -13,6 +13,7 @@ return {
           "dockerfile",
           "bash",
           "rust",
+          "java",
         },
         highlight = {
           enable = true,
