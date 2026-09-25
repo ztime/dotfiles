@@ -1,0 +1,6 @@
+# Ghostty terminal configuration
+# Docs: https://ghostty.org/docs/config
+
+# Font (matches alacritty)
+font-family = "MesloLGS Nerd Font Mono"
+font-size = 12
