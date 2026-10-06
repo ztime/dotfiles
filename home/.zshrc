@@ -78,6 +78,7 @@ alias gp="git push"
 
 # Lifehack, prun = poetry run
 alias prun="poetry run"
+alias restart_camera="systemctl --user restart pipewire pipewire-pulse wireplumber"
 
 # Source local configurations (work-specific aliases/functions)
 # This file is tracked as empty but ignored for changes
@@ -95,3 +96,18 @@ export NVM_DIR="$HOME/.nvm"
 # Setup fc command
 export FCEDIT=nvim
 
+export PATH="/home/jonas/.local/bin:$PATH"
+
+. "$HOME/.local/share/../bin/env"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/jonas/google-cloud-sdk/path.zsh.inc' ]; then . '/home/jonas/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/jonas/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/jonas/google-cloud-sdk/completion.zsh.inc'; fi
+
+# zk Zettelkasten notebook
+export ZK_NOTEBOOK_DIR="$HOME/git_strawberry/notes"
+
+# opencode
+export PATH=/home/jonas/.opencode/bin:$PATH

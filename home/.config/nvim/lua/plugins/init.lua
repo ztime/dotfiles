@@ -17,4 +17,5 @@ vim.list_extend(all, require("plugins.autopairs"))
 vim.list_extend(all, require("plugins.comment"))
 vim.list_extend(all, require("plugins.conform"))
 vim.list_extend(all, require("plugins.indent-blankline"))
+vim.list_extend(all, require("plugins.zk"))
 return all
