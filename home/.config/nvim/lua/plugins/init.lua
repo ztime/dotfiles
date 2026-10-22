@@ -18,4 +18,6 @@ vim.list_extend(all, require("plugins.comment"))
 vim.list_extend(all, require("plugins.conform"))
 vim.list_extend(all, require("plugins.indent-blankline"))
 vim.list_extend(all, require("plugins.zk"))
+vim.list_extend(all, require("plugins.dap"))
+vim.list_extend(all, require("plugins.overseer"))
 return all

@@ -85,7 +85,8 @@ return {
         lsp = {
           config = {
             name = "zk",
-            cmd = { "zk", "lsp" },
+            -- Full path: GUI-launched nvim doesn't get ~/.local/bin on PATH
+            cmd = { vim.fn.expand("~/.local/bin/zk"), "lsp" },
             filetypes = { "markdown" },
           },
           auto_attach = { enabled = true },
