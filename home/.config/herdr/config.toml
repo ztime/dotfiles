@@ -1,0 +1,42 @@
+onboarding = false
+
+[ui.toast]
+delivery = "system"
+
+[theme]
+name = "catppuccin"
+auto_switch = false
+
+[[keys.command]]
+key = "prefix+d"
+type = "plugin_action"
+command = "persiyanov.reviewr.toggle"
+description = "toggle reviewr"
+
+[[keys.command]]
+key = "prefix+alt+d"
+type = "popup"
+command = 'r=$(git -C "$HERDR_ACTIVE_PANE_CWD" rev-parse --show-toplevel 2>/dev/null) && [ -x "$r/scripts/dev-herdr.sh" ] && exec "$r/scripts/dev-herdr.sh" menu || { echo "no scripts/dev-herdr.sh in this repo"; sleep 1.5; }'
+description = "dev stack menu"
+width = 60
+height = 18
+
+[[keys.command]]
+key = "prefix+f"
+type = "popup"
+command = "exec ~/.config/herdr/switch.sh"
+description = "fuzzy switch workspace/agent"
+width = 90
+height = 20
+
+[experimental]
+kitty_graphics = true
+
+[ui.sidebar.agents]
+rows = [
+  ["state_icon", "machine", "workspace", "tab"],
+  ["agent", { token = "state_text", rules = [
+    { equals = "done",    fg = "#a6e3a1", bold = true },
+    { equals = "blocked", fg = "#f9e2af", bold = true },
+  ]}],
+]
