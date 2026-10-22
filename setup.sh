@@ -4,22 +4,25 @@ set -e
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-# Install stow if not already installed
-if ! command -v stow &> /dev/null; then
-    echo "Installing stow..."
-    if command -v apt-get &> /dev/null; then
-        sudo apt-get update
-        sudo apt-get install -y stow
-    elif command -v yum &> /dev/null; then
-        sudo yum install -y stow
-    elif command -v pacman &> /dev/null; then
-        sudo pacman -S --noconfirm stow
-    elif command -v brew &> /dev/null; then
-        brew install stow
-    else
-        echo "Error: Could not find package manager. Please install stow manually."
+# Install packages for the detected OS
+if [[ "$OSTYPE" == darwin* ]]; then
+    echo "Detected macOS"
+    if ! command -v brew &> /dev/null; then
+        echo "Error: Homebrew not found. Install it from https://brew.sh first."
         exit 1
     fi
+    brew install git zsh tmux neovim stow fzf ripgrep fd tree-sitter-cli
+elif command -v pacman &> /dev/null; then
+    echo "Detected Arch/Manjaro"
+    sudo pacman -S --needed --noconfirm git zsh tmux neovim stow fzf ripgrep fd tree-sitter-cli base-devel unzip curl
+elif command -v apt-get &> /dev/null; then
+    echo "Detected Debian/Ubuntu"
+    sudo apt-get update
+    # neovim and tree-sitter-cli in apt are too old/missing, handled separately
+    sudo apt-get install -y git zsh tmux stow fzf ripgrep fd-find build-essential unzip curl
+else
+    echo "Error: Unsupported OS. Install packages manually."
+    exit 1
 fi
 
 # Create symlinks using stow
