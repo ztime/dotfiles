@@ -1,3 +1,9 @@
 *.swp
 .zshrc.local
 PLAN.md
+
+# Serena code tool
+.serena/
+
+# Customer-specific here.d jobs (kept local)
+home/.config/here.d/strawberry-*

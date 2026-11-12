@@ -5,6 +5,8 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+export EDITOR=nvim
+export VISUAL=nvim
 
 # Set the directory we want to store zinit and plugins
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
@@ -79,6 +81,34 @@ alias gp="git push"
 # Lifehack, prun = poetry run
 alias prun="poetry run"
 alias restart_camera="systemctl --user restart pipewire pipewire-pulse wireplumber"
+
+# Status of the here.timer job runner (~/.config/here.d)
+here-status() {
+  local B=$'\e[1m' D=$'\e[2m' G=$'\e[32m' R=$'\e[31m' X=$'\e[0m'
+  local bar=${(l:56::─:)} log=${XDG_STATE_HOME:-$HOME/.local/state}/here/last.log
+  local state next
+  if [[ $OSTYPE == darwin* ]]; then  # untested: no Mac to try it on
+    launchctl print gui/$UID/com.jonas.here &>/dev/null && state=active || state=inactive
+  else
+    state=$(systemctl --user is-active here.timer)
+    next=$(systemctl --user list-timers here.timer --output=json | jq -r '.[0].next // empty')
+  fi
+  local -a lines jobs=(~/.config/here.d/*(N*:t))
+  jobs=(${jobs:#*.*})
+  [[ -r $log ]] && lines=("${(@f)$(<$log)}")
+  local last=${${lines[1]#== run }:-never} result="$G✓ success" dot=$G●
+  [[ $state == active ]] || dot=$R●
+  [[ -n ${(M)lines:#!! *} ]] && result="$R✗ failed"
+
+  print "$D╭─$X$B here.timer $X$D${bar:14}$X"
+  print "$D│$X ${B}timer$X   $dot $state$X"
+  print "$D│$X ${B}last$X    $last  $result$X"
+  [[ -n $next ]] && print "$D│$X ${B}next$X    in $(( (next / 1000000 - $(date +%s)) / 60 ))min $D($(date -d @$((next / 1000000)) +%H:%M))$X"
+  print "$D│$X ${B}jobs$X    ${(j:, :)jobs}"
+  print "$D├─$X$B last run output $X$D${bar:19}$X"
+  (( ${#lines} > 1 )) && print -rl -- "${(@)lines[2,-1]/#/$D│$X }" || print "$D│ (no output)$X"
+  print "$D╰${bar:1}$X"
+}
 
 # Source local configurations (work-specific aliases/functions)
 # This file is tracked as empty but ignored for changes

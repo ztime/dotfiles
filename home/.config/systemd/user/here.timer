@@ -1,0 +1,9 @@
+[Unit]
+Description=Run ~/.config/here.d jobs every 20 minutes while awake
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=20min
+
+[Install]
+WantedBy=timers.target

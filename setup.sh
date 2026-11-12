@@ -45,4 +45,20 @@ else
     echo "nvim not installed, skipping plugin setup"
 fi
 
+# Schedule the here-run job runner (~/.config/here.d) every 20 min
+echo "Scheduling here-run..."
+if [ "$(uname)" = Darwin ]; then
+    # UNTESTED: no Mac to try this on yet
+    plist=~/Library/LaunchAgents/com.jonas.here.plist
+    mkdir -p ~/Library/LaunchAgents
+    launchctl bootout "gui/$(id -u)" "$plist" 2>/dev/null || true
+    cp "$SCRIPT_DIR/macos/com.jonas.here.plist" "$plist"
+    launchctl bootstrap "gui/$(id -u)" "$plist"
+elif command -v systemctl &> /dev/null; then
+    systemctl --user daemon-reload
+    systemctl --user enable --now here.timer
+else
+    echo "No launchd or systemd, skipping here-run schedule"
+fi
+
 echo "Setup complete!"
