@@ -1,0 +1,20 @@
+#!/bin/sh
+# Run every executable in ~/.config/here.d (like run-parts, but portable).
+# Each run goes to ~/.local/state/here/last.log, appended to history.log, and stdout.
+state=${XDG_STATE_HOME:-$HOME/.local/state}/here
+mkdir -p "$state"
+rc=0
+{
+  echo "== run $(date '+%Y-%m-%d %H:%M:%S')"
+  for f in "$HOME"/.config/here.d/*; do
+    name=${f##*/}
+    case $name in *.*) continue ;; esac  # like run-parts: skip names with dots
+    [ -f "$f" ] && [ -x "$f" ] || continue
+    echo "== $name"
+    "$f" 2>&1 || { rc=$?; echo "!! $name exited $rc"; }
+  done
+} >"$state/last.log"
+cat "$state/last.log" >>"$state/history.log"
+tail -n 5000 "$state/history.log" >"$state/history.tmp" && mv "$state/history.tmp" "$state/history.log"
+cat "$state/last.log"
+exit $rc
