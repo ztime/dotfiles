@@ -1,0 +1,10 @@
+id = "ztime.agent-tag"
+name = "agent-tag"
+version = "0.1.0"
+min_herdr_version = "0.9.0"
+platforms = ["linux", "macos"]
+description = "Label new agent panes with their workspace name; tag them per agent with prefix+a."
+
+[[events]]
+on = "pane.agent_detected"
+command = ["sh", "seed.sh"]

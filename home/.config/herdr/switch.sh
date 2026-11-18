@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Fuzzy-switch between herdr workspaces, named tabs and agents.
 ws=$(herdr workspace list)
+panes=$(herdr pane list)
 icon='def icon: {working:"●", blocked:"!", done:"✓", idle:"○"}[.] // "?";'
 {
   jq -r "$icon"'.result.workspaces[] | "\(.workspace_id)\tws\t\(.agent_status | icon) \(.label)"' <<<"$ws"
@@ -8,10 +9,11 @@ icon='def icon: {working:"●", blocked:"!", done:"✓", idle:"○"}[.] // "?";'
     ($ws.result.workspaces | map({(.workspace_id): .label}) | add) as $l
     | .result.tabs[] | select(.label | test("^[0-9]+$") | not)
     | "\(.tab_id)\ttab\t\(.agent_status | icon) \($l[.workspace_id]) / \(.label)"'
-  herdr agent list | jq -r --argjson ws "$ws" "$icon"'
+  herdr agent list | jq -r --argjson ws "$ws" --argjson panes "$panes" "$icon"'
     ($ws.result.workspaces | map({(.workspace_id): .label}) | add) as $l
+    | ($panes.result.panes | map({(.pane_id): .label}) | add) as $p
     | .result.agents[]
-    | "\(.pane_id)\tagent\t\(.agent_status | icon) \($l[.workspace_id]) / \(.agent): \(.terminal_title_stripped)"'
+    | "\(.pane_id)\tagent\t\(.agent_status | icon) \($p[.pane_id] // $l[.workspace_id]) / \(.agent): \(.terminal_title_stripped)"'
 } | fzf --delimiter='\t' --with-nth=2.. --prompt='herdr> ' | {
   IFS=$'\t' read -r id kind _ || exit 0
   case $kind in

@@ -30,6 +30,14 @@ width = 90
 height = 20
 
 [[keys.command]]
+key = "prefix+a"
+type = "popup"
+command = 'exec "$HOME/.config/herdr/tag-agent.sh"'
+description = "tag agent"
+width = 56
+height = 7
+
+[[keys.command]]
 key = "prefix+i"
 type = "plugin_action"
 command = "ztime.pane-note.open"
@@ -40,7 +48,7 @@ kitty_graphics = true
 
 [ui.sidebar.agents]
 rows = [
-  ["state_icon", "machine", "workspace", "tab"],
+  ["state_icon", "machine", { token = "pane", bold = true, fg = "#cdd6f4" }, "tab"],
   ["agent", { token = "state_text", rules = [
     { equals = "done",    fg = "#a6e3a1", bold = true },
     { equals = "blocked", fg = "#f9e2af", bold = true },
