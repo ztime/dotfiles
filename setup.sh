@@ -11,7 +11,7 @@ if [[ "$OSTYPE" == darwin* ]]; then
         echo "Error: Homebrew not found. Install it from https://brew.sh first."
         exit 1
     fi
-    brew install git zsh tmux neovim stow fzf ripgrep fd tree-sitter-cli
+    brew install bash git zsh tmux neovim stow fzf ripgrep fd tree-sitter-cli
 elif command -v pacman &> /dev/null; then
     echo "Detected Arch/Manjaro"
     sudo pacman -S --needed --noconfirm git zsh tmux neovim stow fzf ripgrep fd tree-sitter-cli base-devel unzip curl
@@ -29,6 +29,9 @@ fi
 echo "Creating symlinks with stow..."
 cd "$SCRIPT_DIR"
 stow --target="$HOME" home
+
+# herdr plugins (needs a running herdr server)
+command -v herdr >/dev/null && herdr plugin install ztime/herdr-pane-note >/dev/null || echo "skipped herdr plugin install"
 
 # Setup tmux plugins
 echo "Setting up tmux plugins..."

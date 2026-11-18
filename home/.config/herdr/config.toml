@@ -29,6 +29,12 @@ description = "fuzzy switch workspace/agent"
 width = 90
 height = 20
 
+[[keys.command]]
+key = "prefix+i"
+type = "plugin_action"
+command = "ztime.pane-note.open"
+description = "pane scratch note"
+
 [experimental]
 kitty_graphics = true
 
