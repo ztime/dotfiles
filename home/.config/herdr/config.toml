@@ -1,7 +1,7 @@
 onboarding = false
 
 [ui.toast]
-delivery = "system"
+delivery = "off"
 
 [theme]
 name = "catppuccin"
@@ -38,6 +38,14 @@ width = 56
 height = 7
 
 [[keys.command]]
+key = "prefix+alt+v"
+type = "popup"
+command = 'f="$HOME/.config/herdr/strawberry-cve.sh"; [ -x "$f" ] && exec "$f" || { echo "no local CVE script"; sleep 1.5; }'
+description = "CVE review (local)"
+width = 70
+height = 8
+
+[[keys.command]]
 key = "prefix+i"
 type = "plugin_action"
 command = "ztime.pane-note.open"
@@ -54,3 +62,6 @@ rows = [
     { equals = "blocked", fg = "#f9e2af", bold = true },
   ]}],
 ]
+
+[ui.sound]
+enabled = false

@@ -7,3 +7,7 @@ PLAN.md
 
 # Customer-specific here.d jobs (kept local)
 home/.config/here.d/strawberry-*
+home/.config/herdr/strawberry-*
+
+# Secrets (kept local)
+home/.env

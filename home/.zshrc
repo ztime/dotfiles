@@ -116,6 +116,9 @@ if [ -f ~/.zshrc.local ]; then
     source ~/.zshrc.local
 fi
 
+# Secret tokens (gitignored), exported to every shell
+[ -f ~/.env ] && { set -a; source ~/.env; set +a; }
+
 # Shell integrations
 eval "$(fzf --zsh)"
 
