@@ -31,7 +31,7 @@ cd "$SCRIPT_DIR"
 stow --target="$HOME" home
 
 # herdr plugins (needs a running herdr server)
-command -v herdr >/dev/null && herdr plugin install ztime/herdr-pane-note >/dev/null || echo "skipped herdr plugin install"
+command -v herdr >/dev/null && herdr plugin install --yes ztime/herdr-pane-note >/dev/null || echo "skipped herdr plugin install"
 command -v herdr >/dev/null && herdr plugin link "$HOME/.config/herdr/agent-tag" >/dev/null 2>&1 || true
 
 # Setup tmux plugins
